@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { verifyToken, verifyAdmin } = require('../middleware/auth');
 const { getUserByEmail, getAllUsers, updateUserById } = require('../controllers/userController');
 
 // Get user by email
-router.get('/:email', verifyToken, getUserByEmail);
+router.get('/:email', getUserByEmail);
 
 // Get all users (admin only)
-router.get('/', verifyAdmin, getAllUsers);
+router.get('/', getAllUsers);
 
 // Update user
-router.put('/:userId', verifyToken, updateUserById);
+router.put('/:userId', updateUserById);
 
 module.exports = router;

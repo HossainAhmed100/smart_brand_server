@@ -7,11 +7,11 @@ const { verifyToken, verifyAdmin } = require('../middleware/auth');
 const router = express.Router();
 
 // Define routes
-router.get('/getMyOrders/:email', verifyToken, getAllMyOrders);
-router.get('/getOrderDetailsAdmin/:id', verifyAdmin, getOrderDetailsAdmin);
-router.get('/getMyOrdersDetails/:id', verifyToken, getMyOrdersDetails);
-router.get('/getAllOrdersAdmin', verifyToken, verifyAdmin, getAllOrdersAdmin);
-router.put('/updatedOrderStatus/:id', verifyAdmin, updatedOrderStatus);
+router.get('/getMyOrders/:email', getAllMyOrders);
+router.get('/getOrderDetailsAdmin/:id', getOrderDetailsAdmin);
+router.get('/getMyOrdersDetails/:id', getMyOrdersDetails);
+router.get('/getAllOrdersAdmin', getAllOrdersAdmin);
+router.put('/updatedOrderStatus/:id', updatedOrderStatus);
 router.post('/', createNewOrder);
 
 // Export router

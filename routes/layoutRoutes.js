@@ -1,6 +1,5 @@
 // Import Express and controller functions
 const express = require('express');
-const { verifyAdmin } = require('../middleware/auth');
 const { 
   homePageBanner, 
   addNewBanner, 
@@ -20,23 +19,23 @@ const {
 const router = express.Router();
 
 router.get('/homePageBanner', homePageBanner);
-router.post('/homePageBanner', verifyAdmin, addNewBanner);
-router.delete('/homePageBanner/:itemId', verifyAdmin, deleteBanner);
+router.post('/homePageBanner', addNewBanner);
+router.delete('/homePageBanner/:itemId', deleteBanner);
 
 
-router.post('/deliveryCharge', verifyAdmin, addDeliveryChargerOption);
+router.post('/deliveryCharge', addDeliveryChargerOption);
 router.get('/deliveryCharge', getDeliveryChargerOptions);
-router.delete('/deliveryCharge/:itemId', verifyAdmin, deleteDeliveryChargerOption);
+router.delete('/deliveryCharge/:itemId', deleteDeliveryChargerOption);
 
 
 router.get('/sizeGuide/', getSizeGuide);
 router.delete('/sizeGuide/:itemId', deleteSizeGuide);
-router.post('/sizeGuide/', verifyAdmin, addNewSizeGuide);
+router.post('/sizeGuide/', addNewSizeGuide);
 
 
 router.get('/category/', getCategory);
 router.delete('/category/:itemId', deleteCategory);
-router.post('/category/', verifyAdmin, addNewCategory);
+router.post('/category/', addNewCategory);
 
 
 module.exports = router;
