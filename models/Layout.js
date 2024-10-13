@@ -64,10 +64,43 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model('Category', categorySchema);
 
+// Collection Charge Schema
+const collectionSchema = new mongoose.Schema({
+  label: {
+    type: String,
+    required: true,
+  },
+  path: {
+    type: String,
+    required: true,
+  },
+  key: {
+    type: String, 
+    required: true
+  },
+  imgUrl: {
+    type: String,
+    required: true,
+  },
+});
+
+const Collection = mongoose.model('Collection', collectionSchema);
+
+const instagramImageSchema = new mongoose.Schema({
+  imageUrl: {
+    type: String,
+    required: true,
+  }
+});
+
+const InstagramImage = mongoose.model('InstagramImage', instagramImageSchema);
+
 // Exporting multiple models
 module.exports = {
   Banner,
   DeliveryCharge,
   SizeGuide,
   Category,
+  InstagramImage,
+  Collection
 };

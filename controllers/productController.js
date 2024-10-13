@@ -100,38 +100,24 @@ exports.deleteProduct = async (req, res) => {
 
 // Update product by category
 exports.updateProduct = async (req, res) => {
-    const { title, brand, category, price, discount, productSizes, tag, productColors, discountType, sku, quantity, description, rating, thumbnail, morePhotos} = req.body;
-    const { productId } = req.params;
-
     try {
-        const product = await products.findById(productId);
+        const { productId } = req.params;
+        console.log("🚀 ~ exports.updateProduct= ~ productId:", productId)
+        const updatedProduct = req.body;
+        console.log("🚀 ~ exports.updateProduct= ~ updatedProduct:", updatedProduct)
+    
+        const product = await products.findByIdAndUpdate(productId, updatedProduct, { new: true });
+    
         if (!product) {
-            return res.status(404).json({ message: 'User not found' });
+          return res.status(404).json({ message: 'Product not found' });
         }
-
-        product.title = title || product.title;
-        product.brand = brand || product.brand;
-        product.category = category || product.category;
-        product.price = price || product.price;
-        product.discount = discount || product.discount;
-        product.discountType = discountType || product.discountType;
-        product.sku = sku || product.sku;
-        product.tag = tag || product.tag;
-        product.quantity = quantity || product.quantity;
-        product.productSizes = productSizes || product.productSizes;
-        product.productColors = productColors || product.productColors;
-        product.description = description || product.description;
-        product.rating = rating || product.rating;
-        product.thumbnail = thumbnail || product.thumbnail;
-        product.morePhotos = morePhotos || product.morePhotos;
-
-        await product.save();
-        res.json(product);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
+    
+        res.status(200).json({ message: 'Product updated successfully', product });
+      } catch (error) {
+        res.status(500).json({ message: 'Failed to update product', error });
+      }
 };
+
 
 
 

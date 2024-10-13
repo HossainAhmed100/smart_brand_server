@@ -79,28 +79,10 @@ exports.updatedOrderStatus = async (req, res) => {
 
 exports.createNewOrder = async (req, res) => {
     // Extract product data from request body
-    const {
-        fullName,
-        phone,
-        address,
-        email,
-        status,
-        myCart,
-        deliveryNotes,
-        deliveryChargeDetails
-    } = req.body;
+    const productData = req.body;
 
     // Create a new product instance
-    const newOrder = new orders({
-        fullName,
-        phone,
-        address,
-        email,
-        status,
-        myCart,
-        deliveryNotes,
-        deliveryChargeDetails
-    });
+    const newOrder = new orders(productData);
 
     try {
         // Save the new product to the database

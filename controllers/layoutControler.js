@@ -1,4 +1,4 @@
-const { Banner, DeliveryCharge, SizeGuide, Category } = require('../models/Layout');
+const { Banner, DeliveryCharge, SizeGuide, Category, InstagramImage, Collection } = require('../models/Layout');
 
 // GET all banner images
 exports.homePageBanner = async (req, res) => {
@@ -38,6 +38,46 @@ exports.deleteBanner = async (req, res) => {
         console.error('Error deleting product:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
+};
+
+// GET all banner images
+exports.instagramImage = async (req, res) => {
+    try {
+      const images = await InstagramImage.find();
+        res.json(images);
+    } catch (err) {
+      console.log("🚀 ~ exports.instagramImage= ~ err:", err)
+      res.status(500).json({ message: err.message });
+    }
+};
+
+// POST to update banner images
+exports.addNewInstagramImage = async (req, res) => {
+    const {image} = req.body; // Array of banner objects
+    const imageUrl = image;
+    const newImages = new InstagramImage({imageUrl});
+    try {
+      // Insert new banners
+      const savedImages = await newImages.save();
+      res.status(201).json(savedImages);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+};
+
+// DELETE a banner image
+exports.deleteInstagramImage = async (req, res) => {
+  const id = req.params.itemId;
+  try {
+    const result = await InstagramImage.findByIdAndDelete(id);
+    if (!result) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    res.json(result);
+  } catch (error) {
+    console.error('Error deleting Image:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 exports.deleteDeliveryChargerOption = async (req, res) => {
@@ -157,6 +197,45 @@ exports.deleteCategory = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error('Error Category:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Createa New Size Guide
+exports.addNewCollection = async (req, res) => {
+  const {label, imgUrl, path, key} = req.body; // Array of banner objects
+  const newCollection = new Collection({label, path, imgUrl, key});
+  try {
+    // Insert new banners
+    const savedCollection = await newCollection.save();
+    res.status(201).json(savedCollection);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get Size Guide
+exports.getCollection = async (req, res) => {
+  try {
+    const categoryInfo = await Collection.find();
+    res.json(categoryInfo);
+  } catch (err) {
+    console.log("🚀 ~ exports.categoryInfo= ~ err:", err)
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Delete Size Guide
+exports.deleteCollection = async (req, res) => {
+  const id = req.params.itemId;
+  try {
+    const result = await Collection.findByIdAndDelete(id);
+    if (!result) {
+      return res.status(404).json({ message: 'Collection not found' });
+    }
+    res.json(result);
+  } catch (error) {
+    console.error('Error Collection:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

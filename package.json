@@ -1,10 +1,11 @@
 {
-  "name": "zephyra_ecommerce_server",
+  "name": "smart_brand_server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
