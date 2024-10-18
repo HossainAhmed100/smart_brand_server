@@ -1,4 +1,4 @@
-const { Banner, DeliveryCharge, SizeGuide, Category, InstagramImage, Collection } = require('../models/Layout');
+const { Banner, PupupPromoBanner, DeliveryCharge, SizeGuide, Category, InstagramImage, Collection, ProductTypes, SupportContact } = require('../models/Layout');
 
 // GET all banner images
 exports.homePageBanner = async (req, res) => {
@@ -30,6 +30,46 @@ exports.deleteBanner = async (req, res) => {
     const id = req.params.itemId;
     try {
         const result = await Banner.findByIdAndDelete(id);
+        if (!result) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(result);
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// GET all popup banner images
+exports.popupPromoBannerImg = async (req, res) => {
+    try {
+      const banners = await PupupPromoBanner.find();
+        res.json(banners);
+    } catch (err) {
+      console.log("🚀 ~ exports.homePageBanner= ~ err:", err)
+      res.status(500).json({ message: err.message });
+    }
+};
+
+// POST to update banner images
+exports.newPopupPromoBannerImg = async (req, res) => {
+    const {image} = req.body; // Array of banner objects
+    const imageUrl = image;
+    const newBanners = new PupupPromoBanner({imageUrl});
+    try {
+      // Insert new banners
+      const savedBanner = await newBanners.save();
+      res.status(201).json(savedBanner);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+};
+
+// DELETE a banner image
+exports.deleteopupPromoBannerImg = async (req, res) => {
+    const id = req.params.itemId;
+    try {
+        const result = await PupupPromoBanner.findByIdAndDelete(id);
         if (!result) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -240,4 +280,75 @@ exports.deleteCollection = async (req, res) => {
   }
 };
 
+// Delete Product Types
+exports.deleteProductTypes = async (req, res) => {
+  const id = req.params.itemId;
+  try {
+      const result = await ProductTypes.findByIdAndDelete(id);
+      if (!result) {
+          return res.status(404).json({ message: 'Product Types not found' });
+      }
+      res.json(result);
+  } catch (error) {
+      console.error('Error deleting Product Types:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Add a new Product Types
+exports.addProductTypes = async (req, res) => { 
+const { label, path } = req.body; // Array of ProductTypes
+console.log(label, path)
+try {
+  // Insert new Product Types
+  const newProductTypeData = new ProductTypes({label,path});
+  const savedCharge = await newProductTypeData.save();
+  res.status(201).json(savedCharge);
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+};
+
+// Get All Product Types
+exports.getAllProductTypes = async (req, res) => { 
+try {
+  const allproductTypes = await ProductTypes.find();
+  res.json(allproductTypes);
+} catch (err) {
+  console.error("Error when Get All Product Types", err)
+  res.status(500).json({ message: err.message });
+}
+};
+
+// Create a new Support Message
+exports.createSupportMessage = async (req, res) => {
+  try {
+    const { fullName, email, message } = req.body;
+    // Validate that all fields are provided
+    if (!fullName || !email || !message) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    // Create a new contact document
+    const newContact = new SupportContact({ fullName, email, message });
+    await newContact.save();
+
+    res.status(201).json({ message: 'Message sent successfully!', data: newContact });
+  } catch (error) {
+    console.error('Error creating contact:', error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+}
+
+// Get All Support Mesage
+exports.getAllSuppportMessage = async (req, res) => { 
+  try {
+    const messages = await SupportContact.find();
+    res.json(messages);
+  } catch (err) {
+    console.error("Error when Get All Support Message", err)
+    res.status(500).json({ message: err.message });
+  }
+  };
+  
 

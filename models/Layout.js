@@ -10,6 +10,15 @@ const bannerSchema = new mongoose.Schema({
 
 const Banner = mongoose.model('Banner', bannerSchema);
 
+const promoBannerSchema = new mongoose.Schema({
+  imageUrl: {
+    type: String,
+    required: true,
+  }
+});
+
+const PupupPromoBanner = mongoose.model('PupupPromoBanner', promoBannerSchema);
+
 // Delivery Charge Schema
 const deliveryChargeSchema = new mongoose.Schema({
   deliveryArea: {
@@ -23,6 +32,20 @@ const deliveryChargeSchema = new mongoose.Schema({
 });
 
 const DeliveryCharge = mongoose.model('DeliveryCharge', deliveryChargeSchema);
+
+// Delivery Charge Schema
+const productTypesSchema = new mongoose.Schema({
+  label: {
+    type: String,
+    required: true,
+  },
+  path: {
+    type: String,
+    required: true,
+  },
+});
+
+const ProductTypes = mongoose.model('ProductTypes', productTypesSchema);
 
 // Delivery Charge Schema
 const sizeGuideSchema = new mongoose.Schema({
@@ -95,12 +118,37 @@ const instagramImageSchema = new mongoose.Schema({
 
 const InstagramImage = mongoose.model('InstagramImage', instagramImageSchema);
 
+const contactSchema = new mongoose.Schema({
+  fullName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const SupportContact = mongoose.model('SupportContact', contactSchema);
+
+
 // Exporting multiple models
 module.exports = {
   Banner,
+  PupupPromoBanner,
   DeliveryCharge,
   SizeGuide,
   Category,
   InstagramImage,
-  Collection
+  Collection,
+  ProductTypes,
+  SupportContact
 };
