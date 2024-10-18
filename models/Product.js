@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   originPrice: { type: Number, required: true },
   brand: { type: String, required: true },
+  sizeGuide: { type: String, required: true },
   sold: { type: Number, default: 0 },
   quantity: { type: Number, required: true },
   quantityPurchase: { type: Number, default: 1 },

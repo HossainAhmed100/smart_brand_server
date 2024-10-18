@@ -26,6 +26,7 @@ const cartItemSchema = new Schema({
   price: Number,
   originPrice: Number,
   brand: String,
+  sizeGuide: String,
   sold: Number,
   quantity: Number,
   quantityPurchase: Number,
