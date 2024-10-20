@@ -99,24 +99,84 @@ exports.deleteProduct = async (req, res) => {
 };
 
 // Update product by category
+// Update an existing product
 exports.updateProduct = async (req, res) => {
+    // Extract the product ID from request parameters
+    const { productId } = req.params;
+    console.log("🚀 ~ exports.updateProduct= ~ id:", productId)
+  
+    // Extract updated product data from request body
+    const {
+      category,
+      type,
+      name,
+      gender,
+      isNewProduct,
+      sale,
+      rate,
+      price,
+      originPrice,
+      brand,
+      sizeGuide,
+      sold,
+      quantity,
+      quantityPurchase,
+      sizes,
+      tag,
+      variation,
+      thumbImage,
+      images,
+      description,
+      action,
+      slug,
+      sku
+    } = req.body;
+  
     try {
-        const { productId } = req.params;
-        console.log("🚀 ~ exports.updateProduct= ~ productId:", productId)
-        const updatedProduct = req.body;
-        console.log("🚀 ~ exports.updateProduct= ~ updatedProduct:", updatedProduct)
-    
-        const product = await products.findByIdAndUpdate(productId, updatedProduct, { new: true });
-    
-        if (!product) {
-          return res.status(404).json({ message: 'Product not found' });
-        }
-    
-        res.status(200).json({ message: 'Product updated successfully', product });
-      } catch (error) {
-        res.status(500).json({ message: 'Failed to update product', error });
+      // Find the product by ID and update it with new data
+      const updatedProduct = await products.findByIdAndUpdate(
+        productId,
+        {
+          category,
+          type,
+          name,
+          gender,
+          new: isNewProduct,
+          sale,
+          rate,
+          price,
+          originPrice,
+          brand,
+          sizeGuide,
+          sold,
+          quantity,
+          quantityPurchase,
+          sizes,
+          tag,
+          variation,
+          thumbImage,
+          images,
+          description,
+          action,
+          slug,
+          sku
+        },
+        { new: true } 
+      );
+  
+      // If the product is not found, return a 404 error
+      if (!updatedProduct) {
+        return res.status(404).json({ message: 'Product not found' });
       }
-};
+  
+      // Return the updated product
+      res.status(200).json(updatedProduct);
+    } catch (error) {
+      console.error('Error updating product:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
 
 
 
